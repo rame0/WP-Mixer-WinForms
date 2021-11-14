@@ -9,7 +9,7 @@ namespace WP_Mixer_WinForms
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new WB_Mixer());
         }
     }
 }

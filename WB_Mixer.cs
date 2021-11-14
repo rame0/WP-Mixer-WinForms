@@ -5,17 +5,16 @@ using System.IO.Packaging;
 using System;
 using System.Text.RegularExpressions;
 using OfficeOpenXml;
-//using NPOI;
-//using NPOI.XSSF.UserModel;
-//using NPOI.SS.UserModel;
+using OfficeOpenXml.Drawing;
+
 
 namespace WP_Mixer_WinForms
 {
-    public partial class Form1 : Form
+    public partial class WB_Mixer : Form
     {
         private Settings settings = new Settings();
 
-        public Form1()
+        public WB_Mixer()
         {
             InitializeComponent();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -53,118 +52,12 @@ namespace WP_Mixer_WinForms
             EnableDisableButtons(false);
 
 
-            //Thread _t = new Thread(WorkThread);
-            //_t.Start(settings);
+            Thread _t = new Thread(WorkThread);
+            _t.Start(settings);
 
-            WorkThread(settings);
+            //WorkThread(settings);
 
         }
-
-        //private void WorkThread(object? _settings)
-        //{
-        //    ClearLog();
-        //    LogMessage("Поехали!...");
-        //    if (_settings == null)
-        //    {
-        //        MessageBox.Show("Не указанны настройки!");
-        //        return;
-        //    }
-
-        //    Settings wSettings = (Settings)_settings;
-        //    FileStream? fs1 = null;
-        //    FileStream? fs2 = null;
-        //    try
-        //    {
-        //        fs1 = new FileStream(settings.orderFileName, FileMode.Open);
-        //        fs1.Position = 0;
-
-        //        fs2 = new FileStream(settings.srcFileName, FileMode.Open);
-        //        fs2.Position = 0;
-        //    }
-        //    catch
-        //    {
-        //        if (fs1 != null)
-        //        {
-        //            fs1.Close();
-        //        }
-        //        if (fs2 != null)
-        //        {
-        //            fs2.Close();
-        //        }
-        //        EnableDisableButtons(true);
-        //        MessageBox.Show("Невозможно открыть файл.\r\nПроверьте, возможно он уже открыт в другой программе.", "Невозможно открыть файл");
-        //        return;
-        //    }
-
-        //    XSSFWorkbook orderWorkbook = new XSSFWorkbook(fs1);
-        //    XSSFWorkbook srcWorkbook = new XSSFWorkbook(fs2);
-
-        //    ISheet orderSheet = orderWorkbook.GetSheetAt(0);
-        //    IRow headerRow = orderSheet.GetRow(0);
-        //    int cellCount = headerRow.LastCellNum;
-
-        //    // Артикулы в колонке 4
-        //    List<string> articuls = new List<string>();
-        //    // Кол-во в колонке 6
-        //    List<string> qty = new List<string>();
-
-        //    for (int i = (orderSheet.FirstRowNum + 1); i <= orderSheet.LastRowNum; i++)
-        //    {
-        //        IRow row = orderSheet.GetRow(i);
-        //        if (row == null) continue;
-        //        if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
-
-        //        if (row.GetCell(3) != null)
-        //        {
-        //            if (!string.IsNullOrEmpty(row.GetCell(3).ToString()) && !string.IsNullOrWhiteSpace(row.GetCell(3).ToString()))
-        //            {
-        //                articuls.Add(row.GetCell(3).ToString());
-        //                qty.Add(row.GetCell(5).ToString());
-        //            }
-        //        }
-        //    }
-
-        //    LogMessage("В заказе " + articuls.Count.ToString() + " артикулов для поиска");
-
-        //    int srcSheetsCount = srcWorkbook.Count;
-
-        //    LogMessage("Всего производителей " + srcSheetsCount.ToString());
-
-        //    pbProgress.Invoke((MethodInvoker)(() => pbProgress.Maximum = srcSheetsCount * articuls.Count));
-
-        //    var pictures = srcWorkbook.GetAllPictures();
-
-
-
-
-        //    foreach (ISheet sheet in srcWorkbook)
-        //    {
-        //        LogMessage("Обработка производителя " + sheet.SheetName);
-        //        List<IRow> foundRows = new List<IRow>();
-
-        //        for (int articulIndex = 0; articulIndex < articuls.Count; articulIndex++)
-        //        {
-        //            string articul = prepareCellValue(articuls[articulIndex]);
-        //            foreach (IRow row in sheet)
-        //            {
-        //                if (row == null) continue;
-        //                if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
-
-        //                // В файле производителей артикул в 5й колонке
-        //                ICell cell = row.GetCell(4);
-        //                if (cell != null && prepareCellValue(cell.ToString()) == articul)
-        //                {
-        //                    foundRows.Add(row);
-        //                }
-
-        //            }
-        //            pbProgress.Invoke((MethodInvoker)(() => pbProgress.Value++));
-        //        }
-        //    }
-        //    fs1.Close();
-        //    fs2.Close();
-        //}
-
 
         private void WorkThread(object? _settings)
         {
@@ -227,34 +120,84 @@ namespace WP_Mixer_WinForms
 
             //var pictures = srcWorkbook.GetAllPictures();
 
+            string dateString = DateTime.Now.ToString("yyyy-MM-dd");
 
 
 
             foreach (ExcelWorksheet sheet in srcWorkbook.Worksheets)
             {
-                //var drawnings = sheet.Drawings.;
+                var drawings = sheet.Drawings;
                 LogMessage("Обработка производителя " + sheet.Name);
-                List<int> foundRows = new List<int>();
 
-                for (int articulIndex = 0; articulIndex < articuls.Count; articulIndex++)
+
+                int foundRows = 0;
+
+                using (var newPackage = new ExcelPackage())
                 {
-                    string articul = prepareCellValue(articuls[articulIndex]);
-                    for (int row = 1; row <= sheet.Dimension.End.Row; row++)
-                    {
-                        var cell = sheet.Cells[row, 5];
-                        if (cell == null || cell.Value == null) continue;
-                    
-                        if (prepareCellValue(cell.Value.ToString()) == articul)
-                        {
-                            foundRows.Add(row);
-                        }
+                    var newWorksheet = newPackage.Workbook.Worksheets.Add(sheet.Name);
 
+                    for (int col = 1; col <= sheet.Dimension.End.Column; col++)
+                    {
+                        newWorksheet.Cells[1, col].Value = sheet.Cells[1, col].Value;
+                        newWorksheet.Column(col).Width = sheet.Column(col).Width;
                     }
-                    pbProgress.Invoke((MethodInvoker)(() => pbProgress.Value++));
+
+                    for (int articulIndex = 0; articulIndex < articuls.Count; articulIndex++)
+                    {
+                        string articul = prepareCellValue(articuls[articulIndex]);
+                        for (int row = 1; row <= sheet.Dimension.End.Row; row++)
+                        {
+                            var cell = sheet.Cells[row, 5];
+                            if (cell == null || cell.Value == null) continue;
+
+                            if (prepareCellValue(cell.Value.ToString()) == articul)
+                            {
+                                foundRows++;
+
+                                for (int col = 1; col <= sheet.Dimension.End.Column; col++)
+                                {
+                                    newWorksheet.Cells[foundRows + 1, col].Value = sheet.Cells[row, col].Value;
+                                    newWorksheet.Row(foundRows + 1).Height = sheet.Row(row).Height;
+                                }
+
+                                ExcelPicture? d = (ExcelPicture?)drawings.Where(d => d.From.Column == 3 && d.From.Row == row - 1).FirstOrDefault();
+                                if (d != null)
+                                {
+                                    var pic = newWorksheet.Drawings.AddPicture(d.Name, d.Image);
+                                    pic.From.Column = d.From.Column;
+                                    pic.From.Row = foundRows;
+                                    pic.Size.Width = d.Size.Width;
+                                    pic.Size.Height = d.Size.Height;
+                                    //pic.ImageFormat = d.ImageFormat;
+                                }
+
+                                break;
+                            }
+
+                        }
+                        pbProgress.Invoke((MethodInvoker)(() => pbProgress.Value++));
+                    }
+                    LogMessage("Нашлось совпадений артикулов: " + foundRows.ToString());
+
+                    if (foundRows > 0)
+                    {
+                        string resultFileName = settings.outDirectory + "\\" + dateString + "_" + sheet.Name + ".xlsx";
+                        newPackage.SaveAs(resultFileName);
+                        LogMessage("Файл сохранен в:\r\n" + resultFileName);
+                    }
+                    else
+                    {
+                        LogMessage("Нечего сохранять.");
+                    }
+                    LogMessage("---");
                 }
             }
 
+            LogMessage("Готово!");
+            EnableDisableButtons(true); 
+
         }
+
 
         private void ClearLog()
         {

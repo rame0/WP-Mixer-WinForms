@@ -1,6 +1,6 @@
 ﻿namespace WP_Mixer_WinForms
 {
-    partial class Form1
+    partial class WB_Mixer
     {
         /// <summary>
         ///  Required designer variable.
@@ -203,15 +203,15 @@
             this.splitContainer1.SplitterDistance = 402;
             this.splitContainer1.TabIndex = 2;
             // 
-            // Form1
+            // WB_Mixer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 261);
             this.Controls.Add(this.splitContainer1);
             this.MinimumSize = new System.Drawing.Size(800, 300);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "WB_Mixer";
+            this.Text = "WB Миксер";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
