@@ -138,7 +138,10 @@ namespace WP_Mixer_WinForms
 
                     for (int col = 1; col <= sheet.Dimension.End.Column; col++)
                     {
-                        newWorksheet.Cells[1, col].Value = sheet.Cells[1, col].Value;
+                        newWorksheet.Cells[1, col].Value = sheet.Cells[1, col].Value; if (col == 6)
+                        {
+                            newWorksheet.Cells[1, col].Value ="Кол-во";
+                        }
                         newWorksheet.Column(col).Width = sheet.Column(col).Width;
                     }
 
@@ -157,6 +160,10 @@ namespace WP_Mixer_WinForms
                                 for (int col = 1; col <= sheet.Dimension.End.Column; col++)
                                 {
                                     newWorksheet.Cells[foundRows + 1, col].Value = sheet.Cells[row, col].Value;
+                                    if (col == 6)
+                                    {
+                                        newWorksheet.Cells[foundRows + 1, col].Value = qtys[articulIndex];
+                                    }
                                     newWorksheet.Row(foundRows + 1).Height = sheet.Row(row).Height;
                                 }
 
