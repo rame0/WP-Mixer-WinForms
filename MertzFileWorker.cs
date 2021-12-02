@@ -5,7 +5,7 @@ using OfficeOpenXml.Drawing;
 
 namespace WP_Mixer_WinForms
 {
-    partial class MertzFileWorker: Workers
+    partial class MertzFileWorker : Workers
     {
 
         public static void Run(object? _settings)
@@ -23,7 +23,7 @@ namespace WP_Mixer_WinForms
 
 
             List<string> articuls = new();
-            List<string> qtys = new();
+            List<int> qtys = new();
 
             FileInfo fs1 = new(wSettings.orderFileName);
             using (var orderPackage = new ExcelPackage(fs1))
@@ -44,14 +44,17 @@ namespace WP_Mixer_WinForms
                         continue;
 
                     string? articul = orderSheet.Cells[i, artCol].Value.ToString();
-                    string? qty = orderSheet.Cells[i, qtyCol].Value.ToString();
+                    string? qty_str = orderSheet.Cells[i, qtyCol].Value.ToString();
 
                     if (!string.IsNullOrEmpty(articul)
                         && !string.IsNullOrWhiteSpace(articul)
-                        && !string.IsNullOrEmpty(qty))
+                        && !string.IsNullOrEmpty(qty_str))
                     {
-                        articuls.Add(PrepareCellValue(articul));
-                        qtys.Add(PrepareCellValue(qty));
+                        if (int.TryParse(qty_str, out int qty))
+                        {
+                            articuls.Add(PrepareCellValue(articul));
+                            qtys.Add(qty);
+                        }
                     }
 
                 }
@@ -71,7 +74,7 @@ namespace WP_Mixer_WinForms
                 int foundRows = 0;
 
 
-                wSettings.setMaxProgress.Report( sheet.LastRowNum);
+                wSettings.setMaxProgress.Report(sheet.LastRowNum);
                 wSettings.setProgress.Report(0);
 
                 for (int i = 8; i <= sheet.LastRowNum; i++)
@@ -98,6 +101,7 @@ namespace WP_Mixer_WinForms
                     {
                         foundRows++;
                         cellQty.SetCellValue(qtys[art_key]);
+                        cellQty.SetCellType(CellType.Numeric);
                     }
                 }
 
@@ -111,6 +115,7 @@ namespace WP_Mixer_WinForms
                     {
                         // Прячем колонку с артикулами в итоговом файле, чтобы не мешала
                         sheet.SetColumnHidden(2, true);
+                        sheet.ForceFormulaRecalculation = true;
                         MertzWorkbook.Write(fsResult);
                         wSettings.logMessage.Report("Файл сохранен в:\r\n" + resultFileName);
                     }

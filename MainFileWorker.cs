@@ -41,7 +41,7 @@ namespace WP_Mixer_WinForms
             // Кол-во в колонке 6
             int qtyCol = 6;
             List<string> articuls = new List<string>();
-            List<string> qtys = new List<string>();
+            List<int> qtys = new List<int>();
 
             int rows = orderSheet.Dimension.End.Row;
 
@@ -51,14 +51,17 @@ namespace WP_Mixer_WinForms
                     continue;
 
                 string? articul = orderSheet.Cells[i, artCol].Value.ToString();
-                string? qty = orderSheet.Cells[i, qtyCol].Value.ToString();
+                string? qty_str = orderSheet.Cells[i, qtyCol].Value.ToString();
 
                 if (!string.IsNullOrEmpty(articul)
                     && !string.IsNullOrWhiteSpace(articul)
-                    && !string.IsNullOrEmpty(qty))
+                    && !string.IsNullOrEmpty(qty_str))
                 {
-                    articuls.Add(articul);
-                    qtys.Add(qty);
+                    if (int.TryParse(qty_str, out int qty))
+                    {
+                        articuls.Add(articul);
+                        qtys.Add(qty);
+                    }
                 }
 
             }
