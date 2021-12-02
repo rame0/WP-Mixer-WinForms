@@ -73,11 +73,10 @@ namespace WP_Mixer_WinForms
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 settings.outDirectory = folderBrowserDialog.SelectedPath;
-            }
 
-           
-            await Task.Factory.StartNew(() => MainFileWorker.Run(settings),
-                                        TaskCreationOptions.LongRunning);
+                await Task.Factory.StartNew(() => MainFileWorker.Run(settings),
+                                            TaskCreationOptions.LongRunning);
+            }
         }
 
         private async void StartUnoBtn_Click(object sender, EventArgs e)
@@ -86,10 +85,10 @@ namespace WP_Mixer_WinForms
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 settings.outDirectory = folderBrowserDialog.SelectedPath;
-            }
 
-            await Task.Factory.StartNew(() => UnoFileWorker.Run(settings),
-                                        TaskCreationOptions.LongRunning);
+                await Task.Factory.StartNew(() => UnoFileWorker.Run(settings),
+                                            TaskCreationOptions.LongRunning);
+            }
         }
 
         private async void StartMertzBtn_Click(object sender, EventArgs e)
@@ -98,10 +97,10 @@ namespace WP_Mixer_WinForms
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 settings.outDirectory = folderBrowserDialog.SelectedPath;
-            }
 
-            await Task.Factory.StartNew(() => MertzFileWorker.Run(settings),
-                                        TaskCreationOptions.LongRunning);
+                await Task.Factory.StartNew(() => MertzFileWorker.Run(settings),
+                                            TaskCreationOptions.LongRunning);
+            }
         }
 
 
