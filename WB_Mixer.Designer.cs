@@ -47,11 +47,11 @@
             this.OpenUnoFileBtn = new System.Windows.Forms.Button();
             this.StartUnoBtn = new System.Windows.Forms.Button();
             this.tabMertz = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.MertzFileLabel = new System.Windows.Forms.Label();
             this.OpenMertzFileBtn = new System.Windows.Forms.Button();
             this.StartMertzBtn = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -304,6 +304,17 @@
             this.tabMertz.Text = "Mertz";
             this.tabMertz.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.Location = new System.Drawing.Point(8, 150);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(571, 54);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "* В итоговом файле колонка \"Артикулы WB\"  будет просто скрыта, а не удалена.";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -351,17 +362,6 @@
             this.StartMertzBtn.UseVisualStyleBackColor = true;
             this.StartMertzBtn.Click += new System.EventHandler(this.StartMertzBtn_Click);
             // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.Location = new System.Drawing.Point(8, 150);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(571, 54);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "* В итоговом файле колонка \"Артикулы WB\"  будет просто скрыта, а не удалена.";
-            // 
             // WB_Mixer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -370,7 +370,7 @@
             this.Controls.Add(this.splitContainer);
             this.MinimumSize = new System.Drawing.Size(800, 300);
             this.Name = "WB_Mixer";
-            this.Text = "WB Миксер";
+            this.Text = "WB Миксер v2";
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel1.PerformLayout();
             this.splitContainer.Panel2.ResumeLayout(false);
