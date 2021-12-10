@@ -1,3 +1,6 @@
+using System;
+using System.Windows.Forms;
+
 namespace WP_Mixer_WinForms
 {
     internal static class Program
@@ -8,7 +11,7 @@ namespace WP_Mixer_WinForms
         [STAThread]
         static void Main()
         {
-            ApplicationConfiguration.Initialize();
+            Application.EnableVisualStyles();
             Application.Run(new WB_Mixer());
         }
     }

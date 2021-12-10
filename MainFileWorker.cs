@@ -1,6 +1,11 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace WP_Mixer_WinForms
 {
@@ -33,7 +38,7 @@ namespace WP_Mixer_WinForms
             var orderWorkbook = orderPackage.Workbook;
             var srcWorkbook = srcPackage.Workbook;
 
-            ExcelWorksheet orderSheet = orderWorkbook.Worksheets.ElementAt(0);
+            ExcelWorksheet orderSheet = orderWorkbook.Worksheets[0];
 
 
             // Артикулы в колонке 4

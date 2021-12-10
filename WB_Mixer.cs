@@ -5,7 +5,7 @@ using System.IO.Packaging;
 using System;
 using System.Text.RegularExpressions;
 using OfficeOpenXml;
-
+using System.Threading.Tasks;
 
 namespace WP_Mixer_WinForms
 {
@@ -23,7 +23,7 @@ namespace WP_Mixer_WinForms
             settings.addProgress = new Progress<int>(i => pbProgress.Value += i);
             settings.setLogMessage = new Progress<string>(s => tbLog.Text = s);
             settings.logMessage = new Progress<string>(s => tbLog.AppendText(s + "\r\n"));
-            settings.enableDisableControlls = new Progress<bool>(b => splitContainer.Panel1.Enabled = b);
+            settings.enableDisableControlls = new Progress<bool>(b => panelLeft.Enabled = b);
         }
 
 
