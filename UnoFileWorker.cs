@@ -5,6 +5,7 @@ using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WP_Mixer_WinForms
@@ -33,7 +34,7 @@ namespace WP_Mixer_WinForms
             using (var orderPackage = new ExcelPackage(fs1))
             {
                 var orderWorkbook = orderPackage.Workbook;
-                ExcelWorksheet orderSheet = orderWorkbook.Worksheets[0];
+                ExcelWorksheet orderSheet = orderWorkbook.Worksheets.ElementAt(0);
 
                 // Артикулы в колонке 4
                 int artCol = 4;

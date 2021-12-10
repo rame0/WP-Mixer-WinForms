@@ -15,12 +15,12 @@ namespace WP_Mixer_WinForms
         public string orderFileName = "";
         public string outDirectory = "";
 
-        public IProgress<int> setMaxProgress;
-        public IProgress<int> setProgress;
-        public IProgress<int> addProgress;
-        public IProgress<string> setLogMessage;
-        public IProgress<string> logMessage;
-        public IProgress<bool> enableDisableControlls;
+        public IProgress<int> setMaxProgress = new Progress<int>();
+        public IProgress<int> setProgress = new Progress<int>();
+        public IProgress<int> addProgress = new Progress<int>();
+        public IProgress<string> setLogMessage = new Progress<string>();
+        public IProgress<string> logMessage = new Progress<string>();
+        public IProgress<bool> enableDisableControlls = new Progress<bool>();
 
         public bool IsMainReady()
         {

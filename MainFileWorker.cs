@@ -38,7 +38,7 @@ namespace WP_Mixer_WinForms
             var orderWorkbook = orderPackage.Workbook;
             var srcWorkbook = srcPackage.Workbook;
 
-            ExcelWorksheet orderSheet = orderWorkbook.Worksheets[0];
+            ExcelWorksheet orderSheet = orderWorkbook.Worksheets.ElementAt(0);
 
 
             // Артикулы в колонке 4
